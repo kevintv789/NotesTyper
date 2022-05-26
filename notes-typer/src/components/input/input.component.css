@@ -1,0 +1,18 @@
+.input-container {
+  float: left;
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  width: 25%;
+}
+
+.input {
+  border: 0px;
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+
+.input-label {
+  float: left;
+  padding-bottom: 5px;
+}
