@@ -1,9 +1,5 @@
 .input-container {
   float: left;
-  position: absolute;
-  top: 15%;
-  left: 5%;
-  width: 25%;
 }
 
 .input {

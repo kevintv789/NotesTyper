@@ -1,0 +1,13 @@
+.button {
+  background: #e7cb6c;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: bold;
+  border: 2px solid #fcd147;
+  font-size: 16px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.icon {
+  padding-right: 8px;
+}

@@ -51,6 +51,7 @@
   color: white;
   display: flex;
   place-items: center;
+  overflow-wrap: break-word;
 }
 
 .text-wrapper {
