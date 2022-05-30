@@ -1,6 +1,6 @@
 .notes-container {
-  width: 60%;
-  height: 70%;
+  width: 428px;
+  height: 80%;
   background: black;
   position: absolute;
   bottom: 5%;
@@ -59,6 +59,7 @@
   line-height: 24px;
   width: 90%;
   height: 100%;
+  padding-left: 5%;
 }
 
 .blinking-line {

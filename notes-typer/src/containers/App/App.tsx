@@ -7,7 +7,7 @@ const App = () => {
     return <h1 className="header">Notes Typer</h1>;
   };
   return (
-    <div className="App">
+    <div className="app">
       <Header />
       <HomeContainer />
     </div>
