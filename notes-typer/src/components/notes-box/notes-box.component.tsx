@@ -1,24 +1,24 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React from "react";
 import "./notes-box.css";
 import { faChevronLeft, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 
-type NotesProps = {
-  text: string;
+export type NotesProps = {
   fullText: string;
-  index: number;
+  index?: number;
+  text?: string;
+  speed?: number;
 };
 
-const NotesBox: React.FC<NotesProps> = ({ text, fullText, index }) => {
+const NotesBox: React.FC<NotesProps> = ({ fullText, index, text }) => {
   useEffect(() => {
     var destination = document.getElementById("text");
     if (destination) {
       destination.innerHTML =
-        fullText.substring(0, index + 1) +
-        " <div class='blinking-line v-line' />";
+        fullText.substring(0, index) + " <div class='blinking-line v-line' />";
     }
-  }, [index]);
+  }, [index, fullText]);
 
   return (
     <div className="notes-container">

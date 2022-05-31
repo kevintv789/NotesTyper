@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Button from "../../components/button/button.component";
 import Input from "../../components/input/input.component";
 import NotesBox from "../../components/notes-box/notes-box.component";
@@ -8,79 +8,30 @@ import {
   faRotateLeft,
   faPlay,
   faStop,
+  faVideo,
+  faArrowRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { useReactMediaRecorder } from "react-media-recorder";
-import useVideoConvert, { ConvertedVideo } from "../../hooks/useVideoConvert";
+import useTyper from "../../hooks/useTyper";
+import useMedia from "../../hooks/useMedia";
 
 const HomeContainer = () => {
-  const [text, setText] = useState("");
   const [fullText, setFullText] = useState("");
-  const [index, setIndex] = useState(0);
   const [speed, setSpeed] = useState<number>(80);
-  const [isResetting, setIsResetting] = useState(false);
-  const [timeStamp, setTimeStamp] = useState(0);
 
-  const { convertVideo } = useVideoConvert();
-
-  const { status, startRecording, stopRecording, mediaBlobUrl } =
-    useReactMediaRecorder({
-      screen: true,
-      audio: false,
-      video: false,
-      blobPropertyBag: { type: "video/webm" },
-      //   mediaRecorderOptions: { mimeType: "video/webm;codecs=H264" },
-    });
-
-  useEffect(() => {
-    if (index < fullText.length && !isResetting) {
-      setTimeout(() => {
-        setText(text + fullText[index]);
-        setIndex(index + 1);
-      }, speed);
-    }
-  }, [index, fullText, isResetting, speed, text]);
-
-  const viewRecording = () => {
-    const replay = window.open(mediaBlobUrl, "_blank");
-    if (replay) {
-      replay.focus();
-    }
-  };
-
-  const downloadVideo = async () => {
-    const sourceName = `screen_record_${timeStamp}.webm`;
-
-    try {
-      if (mediaBlobUrl) {
-        const link = document.createElement("a");
-        link.href = mediaBlobUrl;
-        link.download = sourceName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const { playTyping, isPlaying, index, text } = useTyper({ fullText, speed });
+  const {
+    onStopRecording,
+    onStartRecording,
+    viewRecording,
+    downloadVideo,
+    timeStamp,
+    status,
+  } = useMedia();
 
   const onTextChange = (
     e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>
   ) => {
-    setIsResetting(true);
-    setIndex(0);
     setFullText(e.target.value);
-    setIsResetting(false);
-  };
-
-  const onStartRecording = () => {
-    startRecording();
-  };
-
-  const onStopRecording = () => {
-    const currentTime = new Date().getTime();
-    setTimeStamp(currentTime);
-    stopRecording();
   };
 
   return (
@@ -92,10 +43,16 @@ const HomeContainer = () => {
               status === "recording" ? "Stop Recording" : "Start Recording"
             }
             className="top-btn"
-            icon={status === "recording" ? faStop : faPlay}
+            icon={status === "recording" ? faStop : faVideo}
             onClick={
               status === "recording" ? onStopRecording : onStartRecording
             }
+          />
+          <Button
+            label={isPlaying ? "Replay" : "Play"}
+            className="top-btn"
+            icon={isPlaying ? faArrowRotateLeft : faPlay}
+            onClick={playTyping}
           />
         </div>
         <Input
@@ -137,7 +94,7 @@ const HomeContainer = () => {
         )}
       </div>
 
-      <NotesBox text={text} fullText={fullText} index={index} />
+      <NotesBox fullText={fullText} index={index} text={text} />
     </div>
   );
 };
